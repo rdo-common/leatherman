@@ -1,0 +1,12 @@
+diff --git a/nowide/CMakeLists.txt b/nowide/CMakeLists.txt
+index ff9dba6..5d1b9ce 100644
+--- a/nowide/CMakeLists.txt
++++ b/nowide/CMakeLists.txt
+@@ -1,7 +1,5 @@
+ find_package(Boost 1.54 REQUIRED)
+ 
+-add_leatherman_includes(${Boost_INCLUDE_DIRS} "${CMAKE_CURRENT_SOURCE_DIR}/../vendor/nowide/include")
+-add_leatherman_headers(../vendor/nowide/include/boost)
+ if(WIN32)
+     add_leatherman_library(../vendor/nowide/src/iostream.cpp)
+ endif()

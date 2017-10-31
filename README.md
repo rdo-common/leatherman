@@ -1,3 +1,0 @@
-# leatherman
-
-The leatherman package
