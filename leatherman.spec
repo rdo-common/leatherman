@@ -7,7 +7,7 @@
 
 Name:           leatherman
 Version:        1.3.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A collection of C++ and CMake utility libraries
 
 # leatherman is ASL 2.0
@@ -64,11 +64,9 @@ rm -rf vendor/nowide
           -DBOOST_LIBRARYDIR=%{_libdir}/boost%{?boost_version} \
 %endif
           -DLEATHERMAN_SHARED=ON \
-	  -DLEATHERMAN_DEBUG=ON \
-          -DLEATHERMAN_USE_CATCH=OFF \
-          -DLEATHERMAN_ENABLE_TESTING=OFF
+	        -DLEATHERMAN_DEBUG=ON
 
-%__make
+%make_build
 
 %install
 %make_install
@@ -79,8 +77,6 @@ mv %{buildroot}%{_libdir}/cmake/%{name} %{buildroot}%{_libdir}/cmake3/%{name}
 find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %find_lang %{name}_logging
 %find_lang %{name}_locale
-
-
 
 %post -p /sbin/ldconfig
 
@@ -102,6 +98,10 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
+* Tue Nov 07 2017 James Hogarth <james.hogarth@gmail.com> - 1.3.0-4
+- Restore catch to devel build (bz#1510392)
+- Use make_build macro as per review
+
 * Sun Oct 29 2017 Haïkel Guémar <hguemar@fedoraproject.org> - 1.3.0-3
 - Merge with James spec + keep compatibility with CentOS SIGs
 
