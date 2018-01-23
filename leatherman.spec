@@ -7,7 +7,7 @@
 
 Name:           leatherman
 Version:        1.3.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        A collection of C++ and CMake utility libraries
 
 # leatherman is ASL 2.0
@@ -98,6 +98,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
+* Tue Jan 23 2018 Jonathan Wakely <jwakely@redhat.com> - 1.3.0-5
+- Rebuilt for Boost 1.66
+
 * Tue Nov 07 2017 James Hogarth <james.hogarth@gmail.com> - 1.3.0-4
 - Restore catch to devel build (bz#1510392)
 - Use make_build macro as per review
