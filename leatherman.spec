@@ -56,6 +56,12 @@ rm -rf vendor/nowide
 # https://tickets.puppetlabs.com/browse/LTH-130
 # catch is only used in testing so can be ignored
 
+# GCC 8 reports a class-memaccess warning treated as an error
+# See https://tickets.puppetlabs.com/browse/LTH-152
+%if 0%{?fedora} >= 28
+    sed -i "s/\ \-Werror//g" cmake/cflags.cmake
+%endif
+
 %build
 %if 0%{?fedora}
   %cmake \
@@ -64,7 +70,7 @@ rm -rf vendor/nowide
           -DBOOST_LIBRARYDIR=%{_libdir}/boost%{?boost_version} \
 %endif
           -DLEATHERMAN_SHARED=ON \
-	        -DLEATHERMAN_DEBUG=ON
+          -DLEATHERMAN_DEBUG=ON
 
 %make_build
 
