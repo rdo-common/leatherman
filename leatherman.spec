@@ -22,6 +22,7 @@ Source0:        https://github.com/puppetlabs/%{name}/archive/%{version}.tar.gz#
 Patch0:         shared_nowide.patch
 
 %if 0%{?fedora}
+BuildRequires:  gcc-c++
 BuildRequires:  boost-devel
 BuildRequires:  cmake
 %else
