@@ -85,9 +85,7 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %find_lang %{name}_logging
 %find_lang %{name}_locale
 
-%post -p /sbin/ldconfig
-
-%postun -p /sbin/ldconfig
+%ldconfig_scriptlets
 
 
 %files -f %{name}_logging.lang  -f %{name}_locale.lang
