@@ -7,7 +7,7 @@
 
 Name:           leatherman
 Version:        1.3.0
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        A collection of C++ and CMake utility libraries
 
 # leatherman is ASL 2.0
@@ -103,6 +103,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
+* Fri Feb 01 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
+
 * Thu Jan 24 2019 Jonathan Wakely <jwakely@redhat.com> - 1.3.0-8
 - Rebuilt for Boost 1.69
 
