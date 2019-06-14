@@ -85,8 +85,12 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %find_lang %{name}_logging
 %find_lang %{name}_locale
 
+%if 0%{?fedora} || 0%{?rhel} > 7
 %ldconfig_scriptlets
-
+%else
+%post -p /sbin/ldconfig
+%postun -p /sbin/ldconfig
+%endif
 
 %files -f %{name}_logging.lang  -f %{name}_locale.lang
 %license LICENSE
