@@ -1,92 +1,76 @@
-%if 0%{?epel}
-%global boost_version 157
-%else
-# CentOS SIGs have newer //-installable Boost
-%global boost_version 159
+%if 0%{?rhel} && 0%{?rhel} <= 7
+%global boost_suffix 169
+%global cmake_suffix 3
+%global cmake %%cmake%{?cmake_suffix}
 %endif
 
 Name:           leatherman
-Version:        1.3.0
-Release:        9%{?dist}
-Summary:        A collection of C++ and CMake utility libraries
+Version:        1.6.1
+Release:        1%{?dist}
+Summary:        Collection of C++ and CMake utility libraries
 
 # leatherman is ASL 2.0
 # bundled rapidjson is MIT
-
 License:        ASL 2.0 and MIT
 URL:            https://github.com/puppetlabs/leatherman
-Source0:        https://github.com/puppetlabs/%{name}/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
+Source:         %{url}/archive/%{version}/%{name}-%{version}.tar.gz
 
 # This unbundles boost-nowide and the boost libraries do not need
 # to have the path to nowide added as it's included already
 Patch0:         shared_nowide.patch
 
-%if 0%{?fedora}
+BuildRequires:  cmake%{?cmake_suffix} >= 3.2.2
+BuildRequires:  make
 BuildRequires:  gcc-c++
-BuildRequires:  boost-devel
-BuildRequires:  cmake
-%else
-# this isn't in EPEL yet ... but it will be soon
-BuildRequires:  boost%{?boost_version}-devel
-BuildRequires:  cmake3
-%endif
-#BuildRequires:  catch-devel
-BuildRequires:  curl-devel
-BuildRequires:  gettext
+BuildRequires:  boost%{?boost_suffix}-devel >= 1.54
 BuildRequires:  boost-nowide-devel
+BuildRequires:  libcurl-devel
+BuildRequires:  gettext
+Provides:       bundled(rapidjson) = 1.0.2
 
 %description
-A collection of C++ and CMake utility libraries
+%{summary}.
 
 %package        devel
 Summary:        Development files for %{name}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 # Building againse leatherman requires the boost nowide headers present
 Requires:       boost-nowide-devel
-Requires:       %{name}%{?_isa} = %{version}-%{release}
+# Strictly speaking, it is needed only if curl feature is activated
+Requires:       libcurl-devel%{?_isa}
 
 %description    devel
 The %{name}-devel package contains libraries and header files for
 developing applications that use %{name}.
 
-
 %prep
 %autosetup -p1
-# unbundle nowide
-rm -rf vendor/nowide
 # leatherman isn't compatible with rapidjson 1.1.0 yet so that has to be left bundled for now
 # https://tickets.puppetlabs.com/browse/LTH-130
 # catch is only used in testing so can be ignored
 
-# GCC 8 reports a class-memaccess warning treated as an error
-# See https://tickets.puppetlabs.com/browse/LTH-152
-%if 0%{?fedora} >= 28
-    sed -i "s/\ \-Werror//g" cmake/cflags.cmake
-%endif
+# Treating warnings as errors is pretty bad idea.
+sed -i -e "s/\s*-Werror\s*//g" cmake/cflags.cmake
 
 %build
-%if 0%{?fedora}
-  %cmake \
-%else
-  %cmake3 -DBOOST_INCLUDEDIR=/usr/include/boost%{?boost_version} \
-          -DBOOST_LIBRARYDIR=%{_libdir}/boost%{?boost_version} \
-%endif
-          -DLEATHERMAN_SHARED=ON \
-          -DLEATHERMAN_DEBUG=ON
-
-%make_build
+%cmake . -B%{_target_platform} \
+  -DBOOST_INCLUDEDIR=%{_includedir}/boost%{?boost_suffix} \
+  -DBOOST_LIBRARYDIR=%{_libdir}/boost%{?boost_suffix} \
+  -DLEATHERMAN_SHARED=ON \
+  -DLEATHERMAN_DEBUG=ON \
+  %{nil}
+%make_build -C %{_target_platform}
 
 %install
-%make_install
-%if !0%{?fedora}
-mkdir -p %{buildroot}%{_libdir}/cmake3
-mv %{buildroot}%{_libdir}/cmake/%{name} %{buildroot}%{_libdir}/cmake3/%{name}
+%make_install -C %{_target_platform}
+%if %{defined cmake_suffix}
+mkdir -p %{buildroot}%{_libdir}/cmake%{cmake_suffix}
+mv %{buildroot}%{_libdir}/cmake/%{name} %{buildroot}%{_libdir}/cmake%{cmake_suffix}/
 %endif
-find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %find_lang %{name}_logging
 %find_lang %{name}_locale
 
 %ldconfig_scriptlets
-
 
 %files -f %{name}_logging.lang  -f %{name}_locale.lang
 %license LICENSE
@@ -95,14 +79,13 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %files devel
 %{_includedir}/%{name}
 %{_libdir}/%{name}*.so
-%if 0%{?fedora}
-%{_libdir}/cmake/%{name}
-%else
-%{_libdir}/cmake3/%{name}
-%endif
-
+%dir %{_libdir}/cmake%{?cmake_suffix}
+%{_libdir}/cmake%{?cmake_suffix}/%{name}/
 
 %changelog
+* Wed Jul 24 2019 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 1.6.1-1
+- Update to 1.6.1
+
 * Fri Feb 01 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 
