@@ -6,7 +6,7 @@
 
 Name:           leatherman
 Version:        1.6.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Collection of C++ and CMake utility libraries
 
 # leatherman is ASL 2.0
@@ -83,6 +83,9 @@ mv %{buildroot}%{_libdir}/cmake/%{name} %{buildroot}%{_libdir}/cmake%{cmake_suff
 %{_libdir}/cmake%{?cmake_suffix}/%{name}/
 
 %changelog
+* Thu Jul 25 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
+
 * Wed Jul 24 2019 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 1.6.1-1
 - Update to 1.6.1
 
