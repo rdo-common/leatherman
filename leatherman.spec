@@ -83,7 +83,7 @@ mv %{buildroot}%{_libdir}/cmake/%{name} %{buildroot}%{_libdir}/cmake%{cmake_suff
 %{_libdir}/cmake%{?cmake_suffix}/%{name}/
 
 %changelog
-* Thu Jan 28 2020 Adam Tkac <vonsch@gmail.com> - 1.10.1-1
+* Tue Jan 28 2020 Adam Tkac <vonsch@gmail.com> - 1.10.1-1
 - update to 1.10.0
 
 * Thu Jul 25 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.1-2
