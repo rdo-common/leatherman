@@ -1,0 +1,9 @@
+--- leatherman-1.10.0/util/src/environment.cc~	2020-06-02 23:10:13.101632739 +0100
++++ leatherman-1.10.0/util/src/environment.cc	2020-06-02 23:10:25.560638191 +0100
+@@ -1,5 +1,6 @@
+ #include <leatherman/util/environment.hpp>
+ #include <boost/nowide/cstdlib.hpp>
++#include <stdexcept>
+ 
+ using namespace std;
+ 

@@ -6,7 +6,7 @@
 
 Name:           leatherman
 Version:        1.10.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Collection of C++ and CMake utility libraries
 
 # leatherman is ASL 2.0
@@ -18,12 +18,14 @@ Source:         %{url}/archive/%{version}/%{name}-%{version}.tar.gz
 # This unbundles boost-nowide and the boost libraries do not need
 # to have the path to nowide added as it's included already
 Patch0:         shared_nowide.patch
+# Add missing include for <stdexcept>, no longer indirectly included in GCC 10
+Patch1:         leatherman-gcc10.patch
 
 BuildRequires:  cmake%{?cmake_suffix} >= 3.2.2
 BuildRequires:  make
 BuildRequires:  gcc-c++
 BuildRequires:  boost%{?boost_suffix}-devel >= 1.54
-BuildRequires:  boost-nowide-devel
+BuildRequires:  boost-devel
 BuildRequires:  libcurl-devel
 BuildRequires:  gettext
 Provides:       bundled(rapidjson) = 1.0.2
@@ -34,8 +36,8 @@ Provides:       bundled(rapidjson) = 1.0.2
 %package        devel
 Summary:        Development files for %{name}
 Requires:       %{name}%{?_isa} = %{version}-%{release}
-# Building againse leatherman requires the boost nowide headers present
-Requires:       boost-nowide-devel
+# Building against leatherman requires the boost nowide headers present
+Requires:       boost-devel
 # Strictly speaking, it is needed only if curl feature is activated
 Requires:       libcurl-devel%{?_isa}
 
@@ -83,6 +85,9 @@ mv %{buildroot}%{_libdir}/cmake/%{name} %{buildroot}%{_libdir}/cmake%{cmake_suff
 %{_libdir}/cmake%{?cmake_suffix}/%{name}/
 
 %changelog
+* Tue Jun 02 2020 Jonathan Wakely <jwakely@redhat.com> - 1.10.0-2
+- Rebuilt and patched for Boost 1.73
+
 * Tue Jan 28 2020 Adam Tkac <vonsch@gmail.com> - 1.10.1-1
 - update to 1.10.0
 
