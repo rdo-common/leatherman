@@ -1,6 +1,6 @@
 Name:           leatherman
 Version:        1.12.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Collection of C++ and CMake utility libraries
 
 # leatherman is ASL 2.0
@@ -72,6 +72,9 @@ sed -i -e "s/\s*-Werror\s*//g" cmake/cflags.cmake
 %{_libdir}/cmake/%{name}/
 
 %changelog
+* Wed Jun 03 2020 Jonathan Wakely <jwakely@redhat.com> - 1.12.0-2
+- Link libraries to libboost_nowide.so
+
 * Wed Jun 03 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 1.12.0-1
 - Update to 1.12.0
 
