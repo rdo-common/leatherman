@@ -1,12 +1,6 @@
-%if 0%{?rhel} && 0%{?rhel} <= 7
-%global boost_suffix 169
-%global cmake_suffix 3
-%global cmake %%cmake%{?cmake_suffix}
-%endif
-
 Name:           leatherman
-Version:        1.10.0
-Release:        2%{?dist}
+Version:        1.12.0
+Release:        1%{?dist}
 Summary:        Collection of C++ and CMake utility libraries
 
 # leatherman is ASL 2.0
@@ -21,11 +15,10 @@ Patch0:         shared_nowide.patch
 # Add missing include for <stdexcept>, no longer indirectly included in GCC 10
 Patch1:         leatherman-gcc10.patch
 
-BuildRequires:  cmake%{?cmake_suffix} >= 3.2.2
+BuildRequires:  cmake >= 3.2.2
 BuildRequires:  make
 BuildRequires:  gcc-c++
-BuildRequires:  boost%{?boost_suffix}-devel >= 1.54
-BuildRequires:  boost-devel
+BuildRequires:  boost-devel >= 1.73
 BuildRequires:  libcurl-devel
 BuildRequires:  gettext
 Provides:       bundled(rapidjson) = 1.0.2
@@ -56,8 +49,6 @@ sed -i -e "s/\s*-Werror\s*//g" cmake/cflags.cmake
 
 %build
 %cmake . -B%{_target_platform} \
-  -DBOOST_INCLUDEDIR=%{_includedir}/boost%{?boost_suffix} \
-  -DBOOST_LIBRARYDIR=%{_libdir}/boost%{?boost_suffix} \
   -DLEATHERMAN_SHARED=ON \
   -DLEATHERMAN_DEBUG=ON \
   %{nil}
@@ -65,10 +56,6 @@ sed -i -e "s/\s*-Werror\s*//g" cmake/cflags.cmake
 
 %install
 %make_install -C %{_target_platform}
-%if %{defined cmake_suffix}
-mkdir -p %{buildroot}%{_libdir}/cmake%{cmake_suffix}
-mv %{buildroot}%{_libdir}/cmake/%{name} %{buildroot}%{_libdir}/cmake%{cmake_suffix}/
-%endif
 %find_lang %{name}_logging
 %find_lang %{name}_locale
 
@@ -81,10 +68,13 @@ mv %{buildroot}%{_libdir}/cmake/%{name} %{buildroot}%{_libdir}/cmake%{cmake_suff
 %files devel
 %{_includedir}/%{name}
 %{_libdir}/%{name}*.so
-%dir %{_libdir}/cmake%{?cmake_suffix}
-%{_libdir}/cmake%{?cmake_suffix}/%{name}/
+%dir %{_libdir}/cmake
+%{_libdir}/cmake/%{name}/
 
 %changelog
+* Wed Jun 03 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 1.12.0-1
+- Update to 1.12.0
+
 * Tue Jun 02 2020 Jonathan Wakely <jwakely@redhat.com> - 1.10.0-2
 - Rebuilt and patched for Boost 1.73
 
