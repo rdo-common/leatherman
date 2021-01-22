@@ -1,6 +1,6 @@
 Name:           leatherman
 Version:        1.12.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Collection of C++ and CMake utility libraries
 
 # leatherman is ASL 2.0
@@ -74,6 +74,9 @@ sed -i -e "s/\s*-Werror\s*//g" cmake/cflags.cmake
 %{_libdir}/cmake/%{name}/
 
 %changelog
+* Fri Jan 22 2021 Jonathan Wakely <jwakely@redhat.com> - 1.12.0-5
+- Rebuilt for Boost 1.75
+
 * Wed Nov 04 2020 Jeff Law <law@redhat.com> - 1.12.0-4
 - Fix missing #includes for gcc-11
 
