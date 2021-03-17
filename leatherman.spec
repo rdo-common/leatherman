@@ -20,7 +20,8 @@ Patch2:         %{name}-gcc11.patch
 BuildRequires:  cmake >= 3.2.2
 BuildRequires:  make
 BuildRequires:  gcc-c++
-BuildRequires:  boost-devel >= 1.73
+BuildRequires:  boost-devel >= 1.66
+BuildRequires:  boost-nowide-devel
 BuildRequires:  libcurl-devel
 BuildRequires:  gettext
 Provides:       bundled(rapidjson) = 1.0.2
@@ -33,6 +34,7 @@ Summary:        Development files for %{name}
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 # Building against leatherman requires the boost nowide headers present
 Requires:       boost-devel
+Requires:       boost-nowide-devel
 # Strictly speaking, it is needed only if curl feature is activated
 Requires:       libcurl-devel%{?_isa}
 

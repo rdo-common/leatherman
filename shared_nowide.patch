@@ -14,7 +14,7 @@ index ff9dba6..5d1b9ce 100644
 +++ leatherman-1.10.0/execution/CMakeLists.txt	2020-06-03 10:30:18.871483297 +0100
 @@ -1,4 +1,4 @@
 -find_package(Boost 1.54 REQUIRED COMPONENTS regex filesystem system)
-+find_package(Boost 1.73 REQUIRED COMPONENTS regex filesystem system nowide)
++find_package(Boost 1.66 REQUIRED COMPONENTS regex filesystem system)
  
  add_leatherman_deps("${Boost_LIBRARIES}")
  if ("${CMAKE_SYSTEM_NAME}" MATCHES "SunOS")
@@ -30,7 +30,7 @@ index ff9dba6..5d1b9ce 100644
 +++ leatherman-1.10.0/file_util/CMakeLists.txt	2020-06-03 10:31:04.550494516 +0100
 @@ -1,9 +1,8 @@
 -find_package(Boost 1.54 REQUIRED COMPONENTS regex filesystem system)
-+find_package(Boost 1.73 REQUIRED COMPONENTS regex filesystem system nowide)
++find_package(Boost 1.66 REQUIRED COMPONENTS regex filesystem system)
  
  add_leatherman_deps("${Boost_LIBRARIES}")
  add_leatherman_includes("${Boost_INCLUDE_DIRS}")
@@ -53,12 +53,12 @@ index ff9dba6..5d1b9ce 100644
 +++ leatherman-1.10.0/tests/CMakeLists.txt	2020-06-02 23:26:17.780054923 +0100
 @@ -1,8 +1,8 @@
 -set(BOOST_REQUIRED_COMPONENTS system date_time chrono log log_setup thread filesystem regex)
-+set(BOOST_REQUIRED_COMPONENTS system date_time chrono log log_setup thread filesystem regex nowide)
++set(BOOST_REQUIRED_COMPONENTS system date_time chrono log log_setup thread filesystem regex)
  if (LEATHERMAN_USE_LOCALES)
      set(BOOST_REQUIRED_COMPONENTS ${BOOST_REQUIRED_COMPONENTS} locale)
  endif()
 -find_package(Boost "1.54" REQUIRED COMPONENTS ${BOOST_REQUIRED_COMPONENTS})
-+find_package(Boost "1.73" REQUIRED COMPONENTS ${BOOST_REQUIRED_COMPONENTS})
++find_package(Boost "1.66" REQUIRED COMPONENTS ${BOOST_REQUIRED_COMPONENTS})
  
  include_directories(BEFORE ${LEATHERMAN_CATCH_INCLUDE} ${LEATHERMAN_INCLUDE_DIRS})
  add_executable(leatherman_test main.cc ${LEATHERMAN_TEST_SRCS})
@@ -66,7 +66,7 @@ index ff9dba6..5d1b9ce 100644
 +++ leatherman-1.10.0/util/CMakeLists.txt	2020-06-03 10:06:52.969185017 +0100
 @@ -1,10 +1,8 @@
 -find_package(Boost 1.54 REQUIRED date_time chrono system)
-+find_package(Boost 1.73 REQUIRED date_time chrono system nowide)
++find_package(Boost 1.66 REQUIRED date_time chrono system)
  
  add_leatherman_deps(${Boost_LIBRARIES})
  add_leatherman_includes("${Boost_INCLUDE_DIRS}")
